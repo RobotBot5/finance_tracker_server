@@ -40,6 +40,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(registry -> registry
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/icons/**").hasRole("USER")
                         .anyRequest().authenticated()
                 );
         return http.build();
