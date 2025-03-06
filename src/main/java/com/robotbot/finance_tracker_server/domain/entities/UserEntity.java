@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,14 +21,23 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @JsonIgnore
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String firstName;
 
+    @Column(nullable = false)
     private String role;
+
+    private LocalDate dateOfBirth;
+
+    @ManyToOne
+    @JoinColumn(name = "target_currency_id", nullable = false)
+    private CurrencyEntity targetCurrency;
 
 }
