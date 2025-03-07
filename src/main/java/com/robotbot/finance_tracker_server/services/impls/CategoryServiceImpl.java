@@ -47,6 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoriesResponse getCategoriesByUser(UserPrincipal userPrincipal) {
         UserEntity userEntity = userService.getUserByPrincipal(userPrincipal);
         List<CategoryEntity> categories = categoryRepository.findByUser(userEntity);
+        categories.addAll(categoryRepository.findByUser(null));
         return mapper.mapEntitiesListToResponse(categories);
     }
 
@@ -81,7 +82,7 @@ public class CategoryServiceImpl implements CategoryService {
         CategoryEntity category = categoryRepository
                 .findById(id)
                 .orElseThrow(() -> new EntityWithIdDoesntExistsException("Category not found"));
-        if (!category.getUser().getId().equals(userEntity.getId()) && !category.getIsSystem()) {
+        if (category.getUser() == null || !category.getUser().getId().equals(userEntity.getId())) {
             throw new AuthenticationException();
         }
         return category;

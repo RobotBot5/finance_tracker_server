@@ -28,12 +28,13 @@ public class CategoryMapper {
                 .user(userEntity)
                 .icon(iconEntity)
                 .isExpense(categoryCreateRequest.getIsExpense())
-                .isSystem(false)
                 .build();
     }
 
     public CategoryResponse mapEntityToResponse(CategoryEntity categoryEntity) {
-        return mapper.map(categoryEntity, CategoryResponse.class);
+        CategoryResponse categoryResponse = mapper.map(categoryEntity, CategoryResponse.class);
+        categoryResponse.setIsSystem(categoryEntity.getUser() == null);
+        return categoryResponse;
     }
 
     public CategoriesResponse mapEntitiesListToResponse(List<CategoryEntity> categories) {

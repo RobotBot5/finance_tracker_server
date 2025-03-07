@@ -24,11 +24,8 @@ public class CategoryEntity {
     @Column(name = "is_expense")
     private Boolean isExpense;
 
-    @Column(name = "is_system")
-    private Boolean isSystem;
-
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = true)
     private UserEntity user;
 
     @ManyToOne
