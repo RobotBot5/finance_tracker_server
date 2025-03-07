@@ -1,6 +1,7 @@
 package com.robotbot.finance_tracker_server.controllers;
 
 import com.robotbot.finance_tracker_server.domain.dto.CategoryCreateRequest;
+import com.robotbot.finance_tracker_server.domain.dto.CategoryUpdateRequest;
 import com.robotbot.finance_tracker_server.security.UserPrincipal;
 import com.robotbot.finance_tracker_server.services.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +31,15 @@ public class CategoriesController {
             @AuthenticationPrincipal UserPrincipal userPrincipal
     ) {
         return ResponseEntity.ok().body(categoryService.getCategoriesByUser(userPrincipal));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Object> updateCategory(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable Long id,
+            @RequestBody CategoryUpdateRequest categoryUpdateRequest
+    ) {
+        categoryService.updateCategory(id, categoryUpdateRequest, userPrincipal);
+        return ResponseEntity.ok().build();
     }
 }

@@ -2,6 +2,7 @@ package com.robotbot.finance_tracker_server.services.impls;
 
 import com.robotbot.finance_tracker_server.domain.dto.CategoriesResponse;
 import com.robotbot.finance_tracker_server.domain.dto.CategoryCreateRequest;
+import com.robotbot.finance_tracker_server.domain.dto.CategoryUpdateRequest;
 import com.robotbot.finance_tracker_server.domain.entities.CategoryEntity;
 import com.robotbot.finance_tracker_server.domain.entities.IconEntity;
 import com.robotbot.finance_tracker_server.domain.entities.UserEntity;
@@ -47,5 +48,31 @@ public class CategoryServiceImpl implements CategoryService {
         UserEntity userEntity = userService.getUserByPrincipal(userPrincipal);
         List<CategoryEntity> categories = categoryRepository.findByUser(userEntity);
         return mapper.mapEntitiesListToResponse(categories);
+    }
+
+    @Override
+    public void updateCategory(
+            Long categoryId,
+            CategoryUpdateRequest categoryUpdateRequest,
+            UserPrincipal userPrincipal
+    ) {
+        UserEntity userEntity = userService.getUserByPrincipal(userPrincipal);
+        CategoryEntity category = categoryRepository
+                .findById(categoryId)
+                .orElseThrow(() -> new EntityWithIdDoesntExistsException("Category not found"));
+        if (!category.getUser().getId().equals(userEntity.getId()) && !category.getIsSystem()) {
+            throw new AuthenticationException();
+        }
+        if (categoryUpdateRequest.getName() != null) {
+            category.setName(categoryUpdateRequest.getName());
+        }
+
+        if (categoryUpdateRequest.getIconId() != null) {
+            IconEntity icon = iconRepository.findById(categoryUpdateRequest.getIconId())
+                    .orElseThrow(() -> new EntityWithIdDoesntExistsException("Icon not found"));
+            category.setIcon(icon);
+        }
+
+        categoryRepository.save(category);
     }
 }
