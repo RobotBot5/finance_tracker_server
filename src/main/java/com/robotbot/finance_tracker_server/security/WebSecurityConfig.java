@@ -41,6 +41,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/icons/**").hasRole("USER")
+                        .requestMatchers("/categories/**").hasRole("USER")
                         .anyRequest().authenticated()
                 );
         return http.build();
