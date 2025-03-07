@@ -56,13 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
             CategoryUpdateRequest categoryUpdateRequest,
             UserPrincipal userPrincipal
     ) {
-        UserEntity userEntity = userService.getUserByPrincipal(userPrincipal);
-        CategoryEntity category = categoryRepository
-                .findById(categoryId)
-                .orElseThrow(() -> new EntityWithIdDoesntExistsException("Category not found"));
-        if (!category.getUser().getId().equals(userEntity.getId()) && !category.getIsSystem()) {
-            throw new AuthenticationException();
-        }
+        CategoryEntity category = getCategoryEntity(categoryId, userPrincipal);
         if (categoryUpdateRequest.getName() != null) {
             category.setName(categoryUpdateRequest.getName());
         }
@@ -74,5 +68,22 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         categoryRepository.save(category);
+    }
+
+    @Override
+    public void deleteCategory(Long id, UserPrincipal userPrincipal) {
+        CategoryEntity category = getCategoryEntity(id, userPrincipal);
+        categoryRepository.delete(category);
+    }
+
+    private CategoryEntity getCategoryEntity(Long id, UserPrincipal userPrincipal) {
+        UserEntity userEntity = userService.getUserByPrincipal(userPrincipal);
+        CategoryEntity category = categoryRepository
+                .findById(id)
+                .orElseThrow(() -> new EntityWithIdDoesntExistsException("Category not found"));
+        if (!category.getUser().getId().equals(userEntity.getId()) && !category.getIsSystem()) {
+            throw new AuthenticationException();
+        }
+        return category;
     }
 }

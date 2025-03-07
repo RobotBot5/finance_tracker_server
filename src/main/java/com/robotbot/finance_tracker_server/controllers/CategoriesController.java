@@ -42,4 +42,13 @@ public class CategoriesController {
         categoryService.updateCategory(id, categoryUpdateRequest, userPrincipal);
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteCategory(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable Long id
+    ) {
+        categoryService.deleteCategory(id, userPrincipal);
+        return ResponseEntity.ok().build();
+    }
 }
