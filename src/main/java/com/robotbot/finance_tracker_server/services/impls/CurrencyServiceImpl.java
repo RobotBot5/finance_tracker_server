@@ -1,0 +1,27 @@
+package com.robotbot.finance_tracker_server.services.impls;
+
+import com.robotbot.finance_tracker_server.domain.dto.CurrencyResponse;
+import com.robotbot.finance_tracker_server.mappers.impls.CurrencyMapper;
+import com.robotbot.finance_tracker_server.repositories.CurrencyRepository;
+import com.robotbot.finance_tracker_server.services.CurrencyService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+@Service
+@RequiredArgsConstructor
+public class CurrencyServiceImpl implements CurrencyService {
+
+    private final CurrencyRepository currencyRepository;
+    private final CurrencyMapper currencyMapper;
+
+    @Override
+    public CurrencyResponse getCurrencies() {
+        return currencyMapper.mapEntityToResponse (StreamSupport.stream(
+                currencyRepository.findAll().spliterator(),
+                false
+        ).collect(Collectors.toList()));
+    }
+}

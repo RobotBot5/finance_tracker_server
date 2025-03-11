@@ -6,4 +6,9 @@ INSERT INTO icons (name, path) VALUES ('Bus', '/icons/category_bus_24dp.svg');
 INSERT INTO categories (name, is_expense, icon_id, user_id) VALUES ('other', true, 1, null);
 INSERT INTO categories (name, is_expense, icon_id, user_id) VALUES ('other', false, 1, null);
 
+INSERT INTO currencies (code, symbol, name) VALUES ('USD', '$', 'dollars');
+INSERT INTO currencies (code, symbol, name) VALUES ('RUB', '₽', 'rubles');
+INSERT INTO currencies (code, symbol, name) VALUES ('EUR', '€', 'euros');
+INSERT INTO currencies (code, symbol, name) VALUES ('BTC', '₿', 'bitcoins');
+
 INSERT INTO users (email, password, first_name, role) VALUES ('test', '$2a$10$dFma5sRnxjfcLsN2FJPDo.o1D7V7r9lrYDmogtXZaClOBoVh39T7.', 'tester', 'ROLE_USER')

@@ -14,9 +14,6 @@ import lombok.NoArgsConstructor;
 public class CurrencyEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Column(nullable = false, unique = true, length = 3)
     private String code;
 
