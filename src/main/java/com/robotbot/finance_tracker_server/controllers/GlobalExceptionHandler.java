@@ -4,6 +4,7 @@ import com.robotbot.finance_tracker_server.domain.dto.ApiError;
 import com.robotbot.finance_tracker_server.domain.exceptions.AuthenticationException;
 import com.robotbot.finance_tracker_server.domain.exceptions.EmailAlreadyExistsException;
 import com.robotbot.finance_tracker_server.domain.exceptions.EntityWithIdDoesntExistsException;
+import com.robotbot.finance_tracker_server.domain.exceptions.ExchangeApiException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +39,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(EmailAlreadyExistsException.class)
-    public ResponseEntity<ApiError> handleEmailAlreadyExists(
+    public ResponseEntity<ApiError> handleEmailAlreadyExistsException(
             EmailAlreadyExistsException ex,
             HttpServletRequest request
     ) {
@@ -52,7 +53,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(EntityWithIdDoesntExistsException.class)
-    public ResponseEntity<ApiError> handleEntityWithIdDoesntExists(
+    public ResponseEntity<ApiError> handleEntityWithIdDoesntExistsException(
             EntityWithIdDoesntExistsException ex,
             HttpServletRequest request
     ) {
@@ -68,6 +69,20 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<Object> handleAuthenticationException() {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    @ExceptionHandler(ExchangeApiException.class)
+    public ResponseEntity<ApiError> handleExchangeApiException(
+            ExchangeApiException ex,
+            HttpServletRequest request
+    ) {
+        ApiError apiError = ApiError.builder()
+                .title("Error to connect foreign api for converting exchange rates")
+                .status(HttpStatus.BAD_GATEWAY.value())
+                .detail(ex.getMessage())
+                .instance(request.getRequestURI())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(apiError);
     }
 }
 

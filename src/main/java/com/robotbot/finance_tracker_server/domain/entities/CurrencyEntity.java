@@ -20,5 +20,8 @@ public class CurrencyEntity {
     @Column(length = 1)
     private String symbol;
 
+    @Column(nullable = false)
+    private Boolean target;
+
     private String name;
 }
