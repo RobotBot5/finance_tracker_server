@@ -36,8 +36,8 @@ public class UserEntity {
 
     private LocalDate dateOfBirth;
 
-//    @ManyToOne
-//    @JoinColumn(name = "target_currency_id", nullable = false)
-//    private CurrencyEntity targetCurrency;
+    @ManyToOne
+    @JoinColumn(name = "target_currency_id")
+    private CurrencyEntity targetCurrency;
 
 }

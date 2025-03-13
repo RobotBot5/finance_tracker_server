@@ -70,19 +70,5 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleAuthenticationException() {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
-
-    @ExceptionHandler(ExchangeApiException.class)
-    public ResponseEntity<ApiError> handleExchangeApiException(
-            ExchangeApiException ex,
-            HttpServletRequest request
-    ) {
-        ApiError apiError = ApiError.builder()
-                .title("Error to connect foreign api for converting exchange rates")
-                .status(HttpStatus.BAD_GATEWAY.value())
-                .detail(ex.getMessage())
-                .instance(request.getRequestURI())
-                .build();
-        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(apiError);
-    }
 }
 

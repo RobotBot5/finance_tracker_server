@@ -9,6 +9,8 @@ import java.util.List;
 @Repository
 public interface CurrencyRepository extends CrudRepository<CurrencyEntity, String> {
 
+    CurrencyEntity findByCode(String code);
+
     CurrencyEntity findByTargetTrue();
 
     List<CurrencyEntity> findByTargetFalse();

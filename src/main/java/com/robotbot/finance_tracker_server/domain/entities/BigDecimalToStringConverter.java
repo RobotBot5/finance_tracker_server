@@ -5,7 +5,7 @@ import jakarta.persistence.Converter;
 
 import java.math.BigDecimal;
 
-@Converter(autoApply = false)
+@Converter
 public class BigDecimalToStringConverter implements AttributeConverter<BigDecimal, String> {
 
     @Override
