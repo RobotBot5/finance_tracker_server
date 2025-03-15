@@ -1,15 +1,20 @@
 package com.robotbot.finance_tracker_server.domain.dto;
 
-import com.robotbot.finance_tracker_server.domain.entities.CurrencyEntity;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.util.List;
-
-@Builder
+@Data
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CurrencyResponse {
 
-    private List<CurrencyEntity> currencies;
+    private String code;
+
+    private String symbol;
+
+    private String name;
 
 }

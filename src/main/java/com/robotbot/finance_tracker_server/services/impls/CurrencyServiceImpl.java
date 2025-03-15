@@ -1,6 +1,6 @@
 package com.robotbot.finance_tracker_server.services.impls;
 
-import com.robotbot.finance_tracker_server.domain.dto.CurrencyResponse;
+import com.robotbot.finance_tracker_server.domain.dto.CurrenciesResponse;
 import com.robotbot.finance_tracker_server.mappers.impls.CurrencyMapper;
 import com.robotbot.finance_tracker_server.repositories.CurrencyRepository;
 import com.robotbot.finance_tracker_server.services.CurrencyService;
@@ -18,8 +18,8 @@ public class CurrencyServiceImpl implements CurrencyService {
     private final CurrencyMapper currencyMapper;
 
     @Override
-    public CurrencyResponse getCurrencies() {
-        return currencyMapper.mapEntityToResponse (StreamSupport.stream(
+    public CurrenciesResponse getCurrencies() {
+        return currencyMapper.mapEntitiesToResponse(StreamSupport.stream(
                 currencyRepository.findAll().spliterator(),
                 false
         ).collect(Collectors.toList()));

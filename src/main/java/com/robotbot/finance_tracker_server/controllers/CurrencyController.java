@@ -1,6 +1,6 @@
 package com.robotbot.finance_tracker_server.controllers;
 
-import com.robotbot.finance_tracker_server.domain.dto.CurrencyResponse;
+import com.robotbot.finance_tracker_server.domain.dto.CurrenciesResponse;
 import com.robotbot.finance_tracker_server.services.CurrencyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ public class CurrencyController {
     private final CurrencyService currencyService;
 
     @GetMapping
-    public ResponseEntity<CurrencyResponse> getCurrencies() {
+    public ResponseEntity<CurrenciesResponse> getCurrencies() {
         return ResponseEntity.ok().body(currencyService.getCurrencies());
     }
 
