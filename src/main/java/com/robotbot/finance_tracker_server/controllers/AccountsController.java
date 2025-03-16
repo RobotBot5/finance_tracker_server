@@ -2,8 +2,10 @@ package com.robotbot.finance_tracker_server.controllers;
 
 import com.robotbot.finance_tracker_server.domain.dto.AccountCreateRequest;
 import com.robotbot.finance_tracker_server.domain.dto.AccountUpdateRequest;
+import com.robotbot.finance_tracker_server.domain.dto.TransferCreateRequest;
 import com.robotbot.finance_tracker_server.security.UserPrincipal;
 import com.robotbot.finance_tracker_server.services.AccountService;
+import com.robotbot.finance_tracker_server.services.TransferService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class AccountsController {
 
     private final AccountService accountService;
+    private final TransferService transferService;
 
     @PostMapping
     public ResponseEntity<Object> createAccount(
@@ -49,6 +52,15 @@ public class AccountsController {
             @PathVariable Long id
     ) {
         accountService.deleteAccount(id, userPrincipal);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/transfer")
+    public ResponseEntity<Object> transferBetweenAccounts(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @RequestBody @Validated TransferCreateRequest transferCreateRequest
+            ) {
+        transferService.addTransfer(userPrincipal, transferCreateRequest);
         return ResponseEntity.ok().build();
     }
 }

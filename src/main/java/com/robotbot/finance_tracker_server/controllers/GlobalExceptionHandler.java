@@ -77,6 +77,20 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
     }
 
+    @ExceptionHandler(TransferException.class)
+    public ResponseEntity<ApiError> handleTransferException(
+            TransferException ex,
+            HttpServletRequest request
+    ) {
+        ApiError apiError = ApiError.builder()
+                .title("Transfer exception")
+                .status(HttpStatus.BAD_REQUEST.value())
+                .detail(ex.getMessage())
+                .instance(request.getRequestURI())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+    }
+
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<Object> handleAuthenticationException() {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

@@ -3,6 +3,7 @@ package com.robotbot.finance_tracker_server.services.impls;
 import com.robotbot.finance_tracker_server.domain.dto.ExchangeRateResponse;
 import com.robotbot.finance_tracker_server.domain.entities.CurrencyEntity;
 import com.robotbot.finance_tracker_server.domain.entities.CurrencyRatesEntity;
+import com.robotbot.finance_tracker_server.domain.exceptions.EntityWithIdDoesntExistsException;
 import com.robotbot.finance_tracker_server.domain.exceptions.ExchangeApiException;
 import com.robotbot.finance_tracker_server.repositories.CurrencyRatesRepository;
 import com.robotbot.finance_tracker_server.repositories.CurrencyRepository;
@@ -15,6 +16,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.Map;
 
@@ -55,6 +57,30 @@ public class CurrencyRateUpdater {
         } catch (ExchangeApiException ex) {
             log.error("Error updating currency rates: {}", ex.getMessage(), ex);
         }
+    }
+
+    public BigDecimal convert(BigDecimal amount, CurrencyEntity currencyFrom, CurrencyEntity currencyTo) {
+        BigDecimal rateFrom;
+        if (currencyFrom.getTarget()) {
+            rateFrom = BigDecimal.ONE;
+        } else {
+            var currencyRateFrom = currencyRatesRepository
+                    .findByCurrency(currencyFrom)
+                    .orElseThrow(() -> new EntityWithIdDoesntExistsException("Currency rate not found"));
+            rateFrom = new BigDecimal(currencyRateFrom.getRate());
+        }
+
+        BigDecimal rateTo;
+        if (currencyTo.getTarget()) {
+            rateTo = BigDecimal.ONE;
+        } else {
+            CurrencyRatesEntity currencyRateTo = currencyRatesRepository
+                    .findByCurrency(currencyTo)
+                    .orElseThrow(() -> new EntityWithIdDoesntExistsException("Currency rate not found"));
+            rateTo = new BigDecimal(currencyRateTo.getRate());
+        }
+
+        return amount.multiply(rateTo.divide(rateFrom, 2, RoundingMode.HALF_UP));
     }
 }
 
