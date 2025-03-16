@@ -1,10 +1,7 @@
 package com.robotbot.finance_tracker_server.controllers;
 
 import com.robotbot.finance_tracker_server.domain.dto.ApiError;
-import com.robotbot.finance_tracker_server.domain.exceptions.AuthenticationException;
-import com.robotbot.finance_tracker_server.domain.exceptions.EmailAlreadyExistsException;
-import com.robotbot.finance_tracker_server.domain.exceptions.EntityWithIdDoesntExistsException;
-import com.robotbot.finance_tracker_server.domain.exceptions.ExchangeApiException;
+import com.robotbot.finance_tracker_server.domain.exceptions.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,6 +56,20 @@ public class GlobalExceptionHandler {
     ) {
         ApiError apiError = ApiError.builder()
                 .title("Entity with id doesn't exists")
+                .status(HttpStatus.BAD_REQUEST.value())
+                .detail(ex.getMessage())
+                .instance(request.getRequestURI())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+    }
+
+    @ExceptionHandler(CategoryExpenseAndIncomeException.class)
+    public ResponseEntity<ApiError> handleCategoryExpenseAndIncomeException(
+            CategoryExpenseAndIncomeException ex,
+            HttpServletRequest request
+    ) {
+        ApiError apiError = ApiError.builder()
+                .title("Can't switch between expenses and income")
                 .status(HttpStatus.BAD_REQUEST.value())
                 .detail(ex.getMessage())
                 .instance(request.getRequestURI())

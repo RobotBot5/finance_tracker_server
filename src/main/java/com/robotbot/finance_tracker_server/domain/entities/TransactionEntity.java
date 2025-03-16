@@ -32,10 +32,6 @@ public class TransactionEntity {
     private CategoryEntity category;
 
     @ManyToOne
-    @JoinColumn(name = "from_account_id", nullable = false)
-    private AccountEntity fromAccount;
-
-    @ManyToOne
-    @JoinColumn(name = "to_account_id", nullable = false)
-    private AccountEntity toAccount;
+    @JoinColumn(name = "account_id", nullable = false)
+    private AccountEntity account;
 }
