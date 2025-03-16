@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 
+import java.math.BigDecimal;
+
 @Data
 @Getter
 @Builder
@@ -15,6 +17,8 @@ public class AccountResponse {
     private String name;
 
     private CurrencyResponse currency;
+
+    private BigDecimal balance;
 
     private IconEntity icon;
 }

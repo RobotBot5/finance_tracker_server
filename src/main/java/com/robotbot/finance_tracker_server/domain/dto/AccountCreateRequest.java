@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Builder
 public class AccountCreateRequest {
@@ -14,6 +16,8 @@ public class AccountCreateRequest {
 
     @NotBlank(message = "Currency code cannot be null")
     private String currencyCode;
+
+    private BigDecimal balance;
 
     @NotNull(message = "Icon id cannot be null")
     private Long iconId;

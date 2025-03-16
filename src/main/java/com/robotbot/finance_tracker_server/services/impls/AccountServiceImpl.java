@@ -61,6 +61,10 @@ public class AccountServiceImpl implements AccountService {
             account.setName(accountUpdateRequest.getName());
         }
 
+        if (accountUpdateRequest.getBalance() != null) {
+            account.setBalance(accountUpdateRequest.getBalance());
+        }
+
         if (accountUpdateRequest.getCurrencyCode() != null) {
             CurrencyEntity currency = currencyRepository.findByCode(accountUpdateRequest.getCurrencyCode());
             if (currency == null) {
