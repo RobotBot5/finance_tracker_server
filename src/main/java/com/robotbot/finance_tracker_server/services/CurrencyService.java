@@ -1,6 +1,6 @@
 package com.robotbot.finance_tracker_server.services;
 
-import com.robotbot.finance_tracker_server.domain.dto.CurrenciesResponse;
+import com.robotbot.finance_tracker_server.domain.dto.currency.CurrenciesResponse;
 
 public interface CurrencyService {
 

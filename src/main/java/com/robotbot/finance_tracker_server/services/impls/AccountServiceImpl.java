@@ -1,9 +1,8 @@
 package com.robotbot.finance_tracker_server.services.impls;
 
-import com.robotbot.finance_tracker_server.domain.dto.AccountCreateRequest;
-import com.robotbot.finance_tracker_server.domain.dto.AccountUpdateRequest;
-import com.robotbot.finance_tracker_server.domain.dto.AccountsResponse;
-import com.robotbot.finance_tracker_server.domain.dto.CategoryCreateRequest;
+import com.robotbot.finance_tracker_server.domain.dto.account.AccountCreateRequest;
+import com.robotbot.finance_tracker_server.domain.dto.account.AccountUpdateRequest;
+import com.robotbot.finance_tracker_server.domain.dto.account.AccountsResponse;
 import com.robotbot.finance_tracker_server.domain.entities.*;
 import com.robotbot.finance_tracker_server.domain.exceptions.AuthenticationException;
 import com.robotbot.finance_tracker_server.domain.exceptions.EntityWithIdDoesntExistsException;

@@ -1,4 +1,4 @@
-package com.robotbot.finance_tracker_server.domain.dto;
+package com.robotbot.finance_tracker_server.domain.dto.currency;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

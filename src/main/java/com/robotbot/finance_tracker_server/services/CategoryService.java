@@ -1,12 +1,9 @@
 package com.robotbot.finance_tracker_server.services;
 
-import com.robotbot.finance_tracker_server.domain.dto.CategoriesResponse;
-import com.robotbot.finance_tracker_server.domain.dto.CategoryCreateRequest;
-import com.robotbot.finance_tracker_server.domain.dto.CategoryUpdateRequest;
-import com.robotbot.finance_tracker_server.domain.entities.CategoryEntity;
+import com.robotbot.finance_tracker_server.domain.dto.category.CategoriesResponse;
+import com.robotbot.finance_tracker_server.domain.dto.category.CategoryCreateRequest;
+import com.robotbot.finance_tracker_server.domain.dto.category.CategoryUpdateRequest;
 import com.robotbot.finance_tracker_server.security.UserPrincipal;
-
-import java.util.List;
 
 public interface CategoryService {
 

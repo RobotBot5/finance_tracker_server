@@ -1,7 +1,7 @@
 package com.robotbot.finance_tracker_server.mappers.impls;
 
-import com.robotbot.finance_tracker_server.domain.dto.CurrenciesResponse;
-import com.robotbot.finance_tracker_server.domain.dto.CurrencyResponse;
+import com.robotbot.finance_tracker_server.domain.dto.currency.CurrenciesResponse;
+import com.robotbot.finance_tracker_server.domain.dto.currency.CurrencyResponse;
 import com.robotbot.finance_tracker_server.domain.entities.CurrencyEntity;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

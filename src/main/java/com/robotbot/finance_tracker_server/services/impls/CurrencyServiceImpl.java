@@ -1,6 +1,6 @@
 package com.robotbot.finance_tracker_server.services.impls;
 
-import com.robotbot.finance_tracker_server.domain.dto.CurrenciesResponse;
+import com.robotbot.finance_tracker_server.domain.dto.currency.CurrenciesResponse;
 import com.robotbot.finance_tracker_server.mappers.impls.CurrencyMapper;
 import com.robotbot.finance_tracker_server.repositories.CurrencyRepository;
 import com.robotbot.finance_tracker_server.services.CurrencyService;

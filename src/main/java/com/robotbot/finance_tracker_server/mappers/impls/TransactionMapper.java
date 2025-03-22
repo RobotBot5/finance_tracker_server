@@ -1,8 +1,8 @@
 package com.robotbot.finance_tracker_server.mappers.impls;
 
-import com.robotbot.finance_tracker_server.domain.dto.TransactionCreateRequest;
-import com.robotbot.finance_tracker_server.domain.dto.TransactionResponse;
-import com.robotbot.finance_tracker_server.domain.dto.TransactionsResponse;
+import com.robotbot.finance_tracker_server.domain.dto.transaction.TransactionCreateRequest;
+import com.robotbot.finance_tracker_server.domain.dto.transaction.TransactionResponse;
+import com.robotbot.finance_tracker_server.domain.dto.transaction.TransactionsResponse;
 import com.robotbot.finance_tracker_server.domain.entities.AccountEntity;
 import com.robotbot.finance_tracker_server.domain.entities.CategoryEntity;
 import com.robotbot.finance_tracker_server.domain.entities.TransactionEntity;

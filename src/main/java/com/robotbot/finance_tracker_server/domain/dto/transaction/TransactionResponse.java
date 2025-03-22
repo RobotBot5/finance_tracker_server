@@ -1,5 +1,7 @@
-package com.robotbot.finance_tracker_server.domain.dto;
+package com.robotbot.finance_tracker_server.domain.dto.transaction;
 
+import com.robotbot.finance_tracker_server.domain.dto.account.AccountResponse;
+import com.robotbot.finance_tracker_server.domain.dto.category.CategoryResponse;
 import lombok.Builder;
 import lombok.Data;
 

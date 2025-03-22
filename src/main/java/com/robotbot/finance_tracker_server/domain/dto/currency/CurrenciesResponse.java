@@ -1,6 +1,5 @@
-package com.robotbot.finance_tracker_server.domain.dto;
+package com.robotbot.finance_tracker_server.domain.dto.currency;
 
-import com.robotbot.finance_tracker_server.domain.entities.CurrencyEntity;
 import lombok.Builder;
 import lombok.Getter;
 

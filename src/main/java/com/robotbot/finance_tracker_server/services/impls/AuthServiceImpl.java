@@ -1,6 +1,6 @@
 package com.robotbot.finance_tracker_server.services.impls;
 
-import com.robotbot.finance_tracker_server.domain.dto.LoginResponse;
+import com.robotbot.finance_tracker_server.domain.dto.authorize.LoginResponse;
 import com.robotbot.finance_tracker_server.security.JwtIssuer;
 import com.robotbot.finance_tracker_server.security.UserPrincipal;
 import com.robotbot.finance_tracker_server.services.AuthService;

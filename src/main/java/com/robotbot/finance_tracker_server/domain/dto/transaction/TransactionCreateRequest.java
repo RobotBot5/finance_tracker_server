@@ -1,13 +1,17 @@
-package com.robotbot.finance_tracker_server.domain.dto;
+package com.robotbot.finance_tracker_server.domain.dto.transaction;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.math.BigDecimal;
 
 @Getter
-public class TransactionUpdateRequest {
+@Builder
+public class TransactionCreateRequest {
 
+    @NotNull(message = "Amount cannot be null")
     private BigDecimal amount;
 
     @Pattern(
@@ -16,7 +20,9 @@ public class TransactionUpdateRequest {
     )
     private String time;
 
+    @NotNull(message = "Category id cannot be null")
     private Long categoryId;
 
+    @NotNull(message = "Account id cannot be null")
     private Long accountId;
 }

@@ -1,6 +1,6 @@
 package com.robotbot.finance_tracker_server.services;
 
-import com.robotbot.finance_tracker_server.domain.dto.LoginResponse;
+import com.robotbot.finance_tracker_server.domain.dto.authorize.LoginResponse;
 
 public interface AuthService {
 

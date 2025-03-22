@@ -1,8 +1,8 @@
 package com.robotbot.finance_tracker_server.controllers;
 
-import com.robotbot.finance_tracker_server.domain.dto.LoginRequest;
-import com.robotbot.finance_tracker_server.domain.dto.LoginResponse;
-import com.robotbot.finance_tracker_server.domain.dto.UserRegisterRequest;
+import com.robotbot.finance_tracker_server.domain.dto.authorize.LoginRequest;
+import com.robotbot.finance_tracker_server.domain.dto.authorize.LoginResponse;
+import com.robotbot.finance_tracker_server.domain.dto.authorize.UserRegisterRequest;
 import com.robotbot.finance_tracker_server.services.AuthService;
 import com.robotbot.finance_tracker_server.services.UserService;
 import lombok.RequiredArgsConstructor;

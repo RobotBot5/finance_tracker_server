@@ -1,7 +1,7 @@
 package com.robotbot.finance_tracker_server.controllers;
 
-import com.robotbot.finance_tracker_server.domain.dto.CategoryCreateRequest;
-import com.robotbot.finance_tracker_server.domain.dto.CategoryUpdateRequest;
+import com.robotbot.finance_tracker_server.domain.dto.category.CategoryCreateRequest;
+import com.robotbot.finance_tracker_server.domain.dto.category.CategoryUpdateRequest;
 import com.robotbot.finance_tracker_server.security.UserPrincipal;
 import com.robotbot.finance_tracker_server.services.CategoryService;
 import lombok.RequiredArgsConstructor;

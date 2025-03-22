@@ -1,6 +1,8 @@
 package com.robotbot.finance_tracker_server.mappers.impls;
 
-import com.robotbot.finance_tracker_server.domain.dto.*;
+import com.robotbot.finance_tracker_server.domain.dto.account.AccountCreateRequest;
+import com.robotbot.finance_tracker_server.domain.dto.account.AccountResponse;
+import com.robotbot.finance_tracker_server.domain.dto.account.AccountsResponse;
 import com.robotbot.finance_tracker_server.domain.entities.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

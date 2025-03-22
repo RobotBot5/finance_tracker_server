@@ -1,8 +1,8 @@
 package com.robotbot.finance_tracker_server.services;
 
-import com.robotbot.finance_tracker_server.domain.dto.AccountCreateRequest;
-import com.robotbot.finance_tracker_server.domain.dto.AccountUpdateRequest;
-import com.robotbot.finance_tracker_server.domain.dto.AccountsResponse;
+import com.robotbot.finance_tracker_server.domain.dto.account.AccountCreateRequest;
+import com.robotbot.finance_tracker_server.domain.dto.account.AccountUpdateRequest;
+import com.robotbot.finance_tracker_server.domain.dto.account.AccountsResponse;
 import com.robotbot.finance_tracker_server.security.UserPrincipal;
 
 public interface AccountService {

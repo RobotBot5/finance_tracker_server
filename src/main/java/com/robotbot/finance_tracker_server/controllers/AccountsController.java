@@ -1,7 +1,7 @@
 package com.robotbot.finance_tracker_server.controllers;
 
-import com.robotbot.finance_tracker_server.domain.dto.AccountCreateRequest;
-import com.robotbot.finance_tracker_server.domain.dto.AccountUpdateRequest;
+import com.robotbot.finance_tracker_server.domain.dto.account.AccountCreateRequest;
+import com.robotbot.finance_tracker_server.domain.dto.account.AccountUpdateRequest;
 import com.robotbot.finance_tracker_server.domain.dto.TransferCreateRequest;
 import com.robotbot.finance_tracker_server.security.UserPrincipal;
 import com.robotbot.finance_tracker_server.services.AccountService;
