@@ -45,6 +45,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/currencies/**").hasRole("USER")
                         .requestMatchers("/accounts/**").hasRole("USER")
                         .requestMatchers("/transactions/**").hasRole("USER")
+                        .requestMatchers("/analytics/**").hasRole("USER")
                         .anyRequest().authenticated()
                 );
         return http.build();
