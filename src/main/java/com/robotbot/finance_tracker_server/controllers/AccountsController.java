@@ -36,6 +36,14 @@ public class AccountsController {
         return ResponseEntity.ok().body(accountService.getAccountsByUser(userPrincipal));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getAccountById(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable Long id
+    ) {
+        return ResponseEntity.ok().body(accountService.getAccountById(userPrincipal, id));
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<Object> updateAccount(
             @AuthenticationPrincipal UserPrincipal userPrincipal,

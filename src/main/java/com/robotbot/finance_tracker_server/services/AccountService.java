@@ -1,6 +1,7 @@
 package com.robotbot.finance_tracker_server.services;
 
 import com.robotbot.finance_tracker_server.domain.dto.account.AccountCreateRequest;
+import com.robotbot.finance_tracker_server.domain.dto.account.AccountResponse;
 import com.robotbot.finance_tracker_server.domain.dto.account.AccountUpdateRequest;
 import com.robotbot.finance_tracker_server.domain.dto.account.AccountsResponse;
 import com.robotbot.finance_tracker_server.security.UserPrincipal;
@@ -13,6 +14,8 @@ public interface AccountService {
     );
 
     AccountsResponse getAccountsByUser(UserPrincipal userPrincipal);
+
+    AccountResponse getAccountById(UserPrincipal userPrincipal, Long accountId);
 
     void updateAccount(
             Long accountId,

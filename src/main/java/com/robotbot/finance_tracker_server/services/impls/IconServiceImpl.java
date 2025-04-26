@@ -2,6 +2,7 @@ package com.robotbot.finance_tracker_server.services.impls;
 
 import com.robotbot.finance_tracker_server.domain.dto.IconsResponse;
 import com.robotbot.finance_tracker_server.domain.entities.IconEntity;
+import com.robotbot.finance_tracker_server.domain.exceptions.EntityWithIdDoesntExistsException;
 import com.robotbot.finance_tracker_server.mappers.impls.IconMapper;
 import com.robotbot.finance_tracker_server.repositories.IconRepository;
 import com.robotbot.finance_tracker_server.services.IconService;
@@ -25,5 +26,12 @@ public class IconServiceImpl implements IconService {
                 iconRepository.findAll().spliterator(),
                 false
         ).collect(Collectors.toList()));
+    }
+
+    @Override
+    public IconEntity getIconById(Long id) {
+        return iconRepository
+                .findById(id)
+                .orElseThrow(() -> new EntityWithIdDoesntExistsException("Icon not found"));
     }
 }

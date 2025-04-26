@@ -1,9 +1,13 @@
 package com.robotbot.finance_tracker_server.services.impls;
 
 import com.robotbot.finance_tracker_server.domain.dto.account.AccountCreateRequest;
+import com.robotbot.finance_tracker_server.domain.dto.account.AccountResponse;
 import com.robotbot.finance_tracker_server.domain.dto.account.AccountUpdateRequest;
 import com.robotbot.finance_tracker_server.domain.dto.account.AccountsResponse;
-import com.robotbot.finance_tracker_server.domain.entities.*;
+import com.robotbot.finance_tracker_server.domain.entities.AccountEntity;
+import com.robotbot.finance_tracker_server.domain.entities.CurrencyEntity;
+import com.robotbot.finance_tracker_server.domain.entities.IconEntity;
+import com.robotbot.finance_tracker_server.domain.entities.UserEntity;
 import com.robotbot.finance_tracker_server.domain.exceptions.AuthenticationException;
 import com.robotbot.finance_tracker_server.domain.exceptions.EntityWithIdDoesntExistsException;
 import com.robotbot.finance_tracker_server.mappers.impls.AccountMapper;
@@ -17,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -51,6 +56,18 @@ public class AccountServiceImpl implements AccountService {
         UserEntity userEntity = userService.getUserByPrincipal(userPrincipal);
         List<AccountEntity> accounts = accountRepository.findByUser(userEntity);
         return mapper.mapEntitiesListToResponse(accounts);
+    }
+
+    @Override
+    public AccountResponse getAccountById(UserPrincipal userPrincipal, Long accountId) {
+        UserEntity userEntity = userService.getUserByPrincipal(userPrincipal);
+        AccountEntity accountEntity = accountRepository
+                .findById(accountId)
+                .orElseThrow(() -> new EntityWithIdDoesntExistsException("Account not found"));
+        if (!Objects.equals(accountEntity.getUser().getId(), userEntity.getId())) {
+            throw new AuthenticationException("You can't get this account");
+        }
+        return mapper.mapEntityToResponse(accountEntity);
     }
 
     @Override

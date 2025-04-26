@@ -1,6 +1,7 @@
 package com.robotbot.finance_tracker_server.services.impls;
 
 import com.robotbot.finance_tracker_server.domain.dto.currency.CurrenciesResponse;
+import com.robotbot.finance_tracker_server.domain.dto.currency.CurrencyResponse;
 import com.robotbot.finance_tracker_server.mappers.impls.CurrencyMapper;
 import com.robotbot.finance_tracker_server.repositories.CurrencyRepository;
 import com.robotbot.finance_tracker_server.services.CurrencyService;
@@ -23,5 +24,10 @@ public class CurrencyServiceImpl implements CurrencyService {
                 currencyRepository.findAll().spliterator(),
                 false
         ).collect(Collectors.toList()));
+    }
+
+    @Override
+    public CurrencyResponse getCurrencyByCode(String code) {
+        return currencyMapper.mapEntityToResponse(currencyRepository.findByCode(code));
     }
 }
