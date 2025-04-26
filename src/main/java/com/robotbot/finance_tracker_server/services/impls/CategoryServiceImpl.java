@@ -2,6 +2,7 @@ package com.robotbot.finance_tracker_server.services.impls;
 
 import com.robotbot.finance_tracker_server.domain.dto.category.CategoriesResponse;
 import com.robotbot.finance_tracker_server.domain.dto.category.CategoryCreateRequest;
+import com.robotbot.finance_tracker_server.domain.dto.category.CategoryResponse;
 import com.robotbot.finance_tracker_server.domain.dto.category.CategoryUpdateRequest;
 import com.robotbot.finance_tracker_server.domain.entities.CategoryEntity;
 import com.robotbot.finance_tracker_server.domain.entities.IconEntity;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -47,6 +49,11 @@ public class CategoryServiceImpl implements CategoryService {
         List<CategoryEntity> categories = categoryRepository.findByUser(userEntity);
         categories.addAll(categoryRepository.findByUser(null));
         return mapper.mapEntitiesListToResponse(categories);
+    }
+
+    @Override
+    public CategoryResponse getCategoryById(UserPrincipal userPrincipal, Long categoryId) {
+        return mapper.mapEntityToResponse( getCategoryEntity(categoryId, userPrincipal));
     }
 
     @Override
@@ -80,7 +87,7 @@ public class CategoryServiceImpl implements CategoryService {
         CategoryEntity category = categoryRepository
                 .findById(id)
                 .orElseThrow(() -> new EntityWithIdDoesntExistsException("Category not found"));
-        if (category.getUser() == null || !category.getUser().getId().equals(userEntity.getId())) {
+        if (category.getUser() != null && !category.getUser().getId().equals(userEntity.getId())) {
             throw new AuthenticationException();
         }
         return category;

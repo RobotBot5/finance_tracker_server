@@ -2,6 +2,7 @@ package com.robotbot.finance_tracker_server.services;
 
 import com.robotbot.finance_tracker_server.domain.dto.category.CategoriesResponse;
 import com.robotbot.finance_tracker_server.domain.dto.category.CategoryCreateRequest;
+import com.robotbot.finance_tracker_server.domain.dto.category.CategoryResponse;
 import com.robotbot.finance_tracker_server.domain.dto.category.CategoryUpdateRequest;
 import com.robotbot.finance_tracker_server.security.UserPrincipal;
 
@@ -13,6 +14,8 @@ public interface CategoryService {
     );
 
     CategoriesResponse getCategoriesByUser(UserPrincipal userPrincipal);
+
+    CategoryResponse getCategoryById(UserPrincipal userPrincipal, Long accountId);
 
     void updateCategory(
             Long categoryId,

@@ -33,6 +33,14 @@ public class CategoriesController {
         return ResponseEntity.ok().body(categoryService.getCategoriesByUser(userPrincipal));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getCategoryById(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable Long id
+    ) {
+        return ResponseEntity.ok().body(categoryService.getCategoryById(userPrincipal, id));
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<Object> updateCategory(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
