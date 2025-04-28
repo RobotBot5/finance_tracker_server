@@ -52,6 +52,11 @@ public class CurrencyRateUpdater {
                         currencyRatesRepository.save(currencyRateEntity);
                     }
                 }
+                CurrencyRatesEntity targetCurrencyRateEntity = CurrencyRatesEntity.builder()
+                        .currency(currencyRepository.findByTargetTrue())
+                        .rate("1")
+                        .lastUpdated(Instant.now()).build();
+                currencyRatesRepository.save(targetCurrencyRateEntity);
                 log.info("Currency rates update completed successfully.");
             }
         } catch (ExchangeApiException ex) {
