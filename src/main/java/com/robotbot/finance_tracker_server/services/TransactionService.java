@@ -1,6 +1,7 @@
 package com.robotbot.finance_tracker_server.services;
 
 import com.robotbot.finance_tracker_server.domain.dto.transaction.TransactionCreateRequest;
+import com.robotbot.finance_tracker_server.domain.dto.transaction.TransactionResponse;
 import com.robotbot.finance_tracker_server.domain.dto.transaction.TransactionUpdateRequest;
 import com.robotbot.finance_tracker_server.domain.dto.transaction.TransactionsResponse;
 import com.robotbot.finance_tracker_server.security.UserPrincipal;
@@ -11,6 +12,8 @@ public interface TransactionService {
             TransactionCreateRequest transactionCreateRequest,
             UserPrincipal userPrincipal
     );
+
+    TransactionResponse getTransactionById(UserPrincipal userPrincipal, Long transactionId);
 
     TransactionsResponse getTransactionsByUser(UserPrincipal userPrincipal);
 

@@ -1,9 +1,13 @@
 package com.robotbot.finance_tracker_server.services.impls;
 
 import com.robotbot.finance_tracker_server.domain.dto.transaction.TransactionCreateRequest;
+import com.robotbot.finance_tracker_server.domain.dto.transaction.TransactionResponse;
 import com.robotbot.finance_tracker_server.domain.dto.transaction.TransactionUpdateRequest;
 import com.robotbot.finance_tracker_server.domain.dto.transaction.TransactionsResponse;
-import com.robotbot.finance_tracker_server.domain.entities.*;
+import com.robotbot.finance_tracker_server.domain.entities.AccountEntity;
+import com.robotbot.finance_tracker_server.domain.entities.CategoryEntity;
+import com.robotbot.finance_tracker_server.domain.entities.TransactionEntity;
+import com.robotbot.finance_tracker_server.domain.entities.UserEntity;
 import com.robotbot.finance_tracker_server.domain.exceptions.AuthenticationException;
 import com.robotbot.finance_tracker_server.domain.exceptions.CategoryExpenseAndIncomeException;
 import com.robotbot.finance_tracker_server.domain.exceptions.EntityWithIdDoesntExistsException;
@@ -21,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -69,6 +74,18 @@ public class TransactionServiceImpl implements TransactionService {
         UserEntity userEntity = userService.getUserByPrincipal(userPrincipal);
         List<TransactionEntity> transactions = transactionRepository.findByAccount_User(userEntity);
         return mapper.mapEntitiesToResponse(transactions);
+    }
+
+    @Override
+    public TransactionResponse getTransactionById(UserPrincipal userPrincipal, Long transactionId) {
+        UserEntity userEntity = userService.getUserByPrincipal(userPrincipal);
+        TransactionEntity transactionEntity = transactionRepository
+                .findById(transactionId)
+                .orElseThrow(() -> new EntityWithIdDoesntExistsException("Transaction not found"));
+        if (!Objects.equals(transactionEntity.getAccount().getUser().getId(), userEntity.getId())) {
+            throw new AuthenticationException("You can't get this transaction");
+        }
+        return mapper.mapEntityToResponse(transactionEntity);
     }
 
     @Override

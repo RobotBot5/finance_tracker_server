@@ -33,6 +33,14 @@ public class TransactionController {
         return ResponseEntity.ok().body(transactionService.getTransactionsByUser(userPrincipal));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getTransactionById(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @PathVariable Long id
+    ) {
+        return ResponseEntity.ok().body(transactionService.getTransactionById(userPrincipal, id));
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<Object> updateTransaction(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
