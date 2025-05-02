@@ -15,14 +15,12 @@ import java.time.Instant;
 @Entity(name = "currency_rates")
 public class CurrencyRatesEntity {
 
-    // Это поле является первичным ключом
     @Id
     @Column(name = "currency_code", nullable = false, length = 3)
     private String currencyCode;
 
-    // Связь, которая использует идентификатор из currencyCode
     @OneToOne(cascade = CascadeType.REMOVE)
-    @MapsId  // Указывает, что первичный ключ берется из поля currencyCode
+    @MapsId
     @JoinColumn(name = "currency_code", nullable = false)
     private CurrencyEntity currency;
 

@@ -1,9 +1,6 @@
 package com.robotbot.finance_tracker_server.services.impls;
 
-import com.robotbot.finance_tracker_server.domain.dto.account.AccountCreateRequest;
-import com.robotbot.finance_tracker_server.domain.dto.account.AccountResponse;
-import com.robotbot.finance_tracker_server.domain.dto.account.AccountUpdateRequest;
-import com.robotbot.finance_tracker_server.domain.dto.account.AccountsResponse;
+import com.robotbot.finance_tracker_server.domain.dto.account.*;
 import com.robotbot.finance_tracker_server.domain.entities.AccountEntity;
 import com.robotbot.finance_tracker_server.domain.entities.CurrencyEntity;
 import com.robotbot.finance_tracker_server.domain.entities.IconEntity;
@@ -18,11 +15,14 @@ import com.robotbot.finance_tracker_server.security.UserPrincipal;
 import com.robotbot.finance_tracker_server.services.AccountService;
 import com.robotbot.finance_tracker_server.services.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
@@ -32,6 +32,7 @@ public class AccountServiceImpl implements AccountService {
     private final IconRepository iconRepository;
     private final AccountMapper mapper;
     private final CurrencyRepository currencyRepository;
+    private final CurrencyRateUpdater currencyRateUpdater;
 
     @Override
     public void addAccount(AccountCreateRequest accountCreateRequest, UserPrincipal userPrincipal) {
@@ -102,6 +103,31 @@ public class AccountServiceImpl implements AccountService {
     public void deleteAccount(Long id, UserPrincipal userPrincipal) {
         AccountEntity account = getAccountEntity(id, userPrincipal);
         accountRepository.delete(account);
+    }
+
+    @Override
+    public TotalBalanceResponse getTotalBalance(UserPrincipal userPrincipal) {
+        UserEntity userEntity = userService.getUserByPrincipal(userPrincipal);
+        CurrencyEntity targetCurrency = userEntity.getTargetCurrency();
+        List<AccountEntity> accounts = accountRepository.findByUser(userEntity);
+
+        BigDecimal totalBalance = BigDecimal.ZERO;
+        for (AccountEntity account : accounts) {
+            BigDecimal accountBalance = account.getBalance();
+            CurrencyEntity accountCurrency = account.getCurrency();
+
+            if (targetCurrency.equals(accountCurrency)) {
+                totalBalance = totalBalance.add(accountBalance);
+            } else {
+                log.info("account balance: " + accountBalance.toPlainString());
+                log.info("account currency: " + accountCurrency.getCode());
+                log.info("target currency: " + targetCurrency.getCode());
+                BigDecimal amountInTargetCurrency = currencyRateUpdater.convert(accountBalance, accountCurrency, targetCurrency);
+                log.info("converted amount: " + amountInTargetCurrency.toPlainString());
+                totalBalance = totalBalance.add(amountInTargetCurrency);
+            }
+        }
+        return mapper.mapTotalBalanceToResponse(totalBalance, targetCurrency);
     }
 
     private AccountEntity getAccountEntity(Long id, UserPrincipal userPrincipal) {

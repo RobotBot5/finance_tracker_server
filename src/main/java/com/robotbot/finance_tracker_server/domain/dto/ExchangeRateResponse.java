@@ -9,8 +9,6 @@ import java.util.Map;
 
 @Data
 public class ExchangeRateResponse {
-
-    // Этот Map будет содержать все динамические пары "валюта-курс"
     private Map<String, BigDecimal> rates = new HashMap<>();
 
     @JsonAnySetter

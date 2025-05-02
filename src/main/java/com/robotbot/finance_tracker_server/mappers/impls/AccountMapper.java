@@ -3,7 +3,11 @@ package com.robotbot.finance_tracker_server.mappers.impls;
 import com.robotbot.finance_tracker_server.domain.dto.account.AccountCreateRequest;
 import com.robotbot.finance_tracker_server.domain.dto.account.AccountResponse;
 import com.robotbot.finance_tracker_server.domain.dto.account.AccountsResponse;
-import com.robotbot.finance_tracker_server.domain.entities.*;
+import com.robotbot.finance_tracker_server.domain.dto.account.TotalBalanceResponse;
+import com.robotbot.finance_tracker_server.domain.entities.AccountEntity;
+import com.robotbot.finance_tracker_server.domain.entities.CurrencyEntity;
+import com.robotbot.finance_tracker_server.domain.entities.IconEntity;
+import com.robotbot.finance_tracker_server.domain.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -51,5 +55,12 @@ public class AccountMapper {
                                 .map(this::mapEntityToResponse)
                                 .toList()
                 ).build();
+    }
+
+    public TotalBalanceResponse mapTotalBalanceToResponse(BigDecimal totalBalance, CurrencyEntity targetCurrency) {
+        return TotalBalanceResponse.builder()
+                .totalBalance(totalBalance)
+                .targetCurrency(currencyMapper.mapEntityToResponse(targetCurrency))
+                .build();
     }
 }

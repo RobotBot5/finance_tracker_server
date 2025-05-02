@@ -11,4 +11,5 @@ INSERT INTO currencies (code, symbol, name, target) VALUES ('RUB', '₽', 'ruble
 INSERT INTO currencies (code, symbol, name, target) VALUES ('EUR', '€', 'euros', false);
 INSERT INTO currencies (code, symbol, name, target) VALUES ('BTC', '₿', 'bitcoins', false);
 
-INSERT INTO users (email, password, first_name, role) VALUES ('test', '$2a$10$dFma5sRnxjfcLsN2FJPDo.o1D7V7r9lrYDmogtXZaClOBoVh39T7.', 'tester', 'ROLE_USER')
+INSERT INTO users (target_currency_id, email, password, first_name, role)
+VALUES ('USD', 'test', '$2a$10$dFma5sRnxjfcLsN2FJPDo.o1D7V7r9lrYDmogtXZaClOBoVh39T7.', 'tester', 'ROLE_USER')

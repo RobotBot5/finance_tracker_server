@@ -1,8 +1,8 @@
 package com.robotbot.finance_tracker_server.controllers;
 
+import com.robotbot.finance_tracker_server.domain.dto.TransferCreateRequest;
 import com.robotbot.finance_tracker_server.domain.dto.account.AccountCreateRequest;
 import com.robotbot.finance_tracker_server.domain.dto.account.AccountUpdateRequest;
-import com.robotbot.finance_tracker_server.domain.dto.TransferCreateRequest;
 import com.robotbot.finance_tracker_server.security.UserPrincipal;
 import com.robotbot.finance_tracker_server.services.AccountService;
 import com.robotbot.finance_tracker_server.services.TransferService;
@@ -67,8 +67,15 @@ public class AccountsController {
     public ResponseEntity<Object> transferBetweenAccounts(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestBody @Validated TransferCreateRequest transferCreateRequest
-            ) {
+    ) {
         transferService.addTransfer(userPrincipal, transferCreateRequest);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/total-balance")
+    public ResponseEntity getTotalBalance(
+            @AuthenticationPrincipal UserPrincipal userPrincipal
+    ) {
+        return ResponseEntity.ok().body(accountService.getTotalBalance(userPrincipal));
     }
 }
