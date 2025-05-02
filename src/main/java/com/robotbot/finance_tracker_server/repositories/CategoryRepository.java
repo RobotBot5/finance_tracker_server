@@ -11,4 +11,6 @@ import java.util.List;
 public interface CategoryRepository extends CrudRepository<CategoryEntity, Long> {
 
     List<CategoryEntity> findByUser(UserEntity user);
+
+    List<CategoryEntity> findByUserAndIsExpense(UserEntity user, Boolean isExpense);
 }

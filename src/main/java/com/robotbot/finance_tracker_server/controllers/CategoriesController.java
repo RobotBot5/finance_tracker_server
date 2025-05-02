@@ -28,9 +28,10 @@ public class CategoriesController {
 
     @GetMapping
     public ResponseEntity<Object> getCategories(
-            @AuthenticationPrincipal UserPrincipal userPrincipal
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @RequestParam(value = "isExpense", required = false) Boolean isExpense
     ) {
-        return ResponseEntity.ok().body(categoryService.getCategoriesByUser(userPrincipal));
+        return ResponseEntity.ok().body(categoryService.getCategoriesByUser(userPrincipal, isExpense));
     }
 
     @GetMapping("/{id}")

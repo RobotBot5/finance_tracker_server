@@ -13,7 +13,7 @@ public interface CategoryService {
             UserPrincipal userPrincipal
     );
 
-    CategoriesResponse getCategoriesByUser(UserPrincipal userPrincipal);
+    CategoriesResponse getCategoriesByUser(UserPrincipal userPrincipal, Boolean isExpense);
 
     CategoryResponse getCategoryById(UserPrincipal userPrincipal, Long accountId);
 

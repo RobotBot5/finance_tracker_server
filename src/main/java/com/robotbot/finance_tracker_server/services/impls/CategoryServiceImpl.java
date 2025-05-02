@@ -19,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -44,12 +43,19 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoriesResponse getCategoriesByUser(UserPrincipal userPrincipal) {
+    public CategoriesResponse getCategoriesByUser(UserPrincipal userPrincipal, Boolean isExpense) {
         UserEntity userEntity = userService.getUserByPrincipal(userPrincipal);
-        List<CategoryEntity> categories = categoryRepository.findByUser(userEntity);
-        categories.addAll(categoryRepository.findByUser(null));
+        List<CategoryEntity> categories;
+        if (isExpense == null) {
+            categories = categoryRepository.findByUser(userEntity);
+            categories.addAll(categoryRepository.findByUser(null));
+        } else {
+            categories = categoryRepository.findByUserAndIsExpense(userEntity, isExpense);
+            categories.addAll(categoryRepository.findByUserAndIsExpense(null, isExpense));
+        }
         return mapper.mapEntitiesListToResponse(categories);
     }
+
 
     @Override
     public CategoryResponse getCategoryById(UserPrincipal userPrincipal, Long categoryId) {
