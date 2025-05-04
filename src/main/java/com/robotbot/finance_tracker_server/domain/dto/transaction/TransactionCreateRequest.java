@@ -15,10 +15,10 @@ public class TransactionCreateRequest {
     private BigDecimal amount;
 
     @Pattern(
-            regexp = "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}[+-]\\d{2}:\\d{2}$",
-            message = "Time must be in ISO-8601 format, e.g. 2025-03-15T10:15:30.000+03:00"
+            regexp = "^\\d{4}-\\d{2}-\\d{2}$",
+            message = "Date must be in ISO-8601 format, e.g. 2025-03-15"
     )
-    private String time;
+    private String date;
 
     @NotNull(message = "Category id cannot be null")
     private Long categoryId;

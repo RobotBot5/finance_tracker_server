@@ -9,7 +9,7 @@ import com.robotbot.finance_tracker_server.domain.entities.TransactionEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -24,15 +24,15 @@ public class TransactionMapper {
             CategoryEntity categoryEntity,
             AccountEntity accountEntity
     ) {
-        OffsetDateTime time;
-        if (transactionCreateRequest.getTime() == null) {
-            time = OffsetDateTime.now();
+        LocalDate date;
+        if (transactionCreateRequest.getDate() == null) {
+            date = LocalDate.now();
         } else {
-            time = OffsetDateTime.parse(transactionCreateRequest.getTime());
+            date = LocalDate.parse(transactionCreateRequest.getDate());
         }
         return TransactionEntity.builder()
                 .amount(transactionCreateRequest.getAmount())
-                .time(time)
+                .date(date)
                 .category(categoryEntity)
                 .account(accountEntity)
                 .build();
@@ -42,7 +42,7 @@ public class TransactionMapper {
         return TransactionResponse.builder()
                 .id(transactionEntity.getId())
                 .amount(transactionEntity.getAmount())
-                .time(transactionEntity.getTime())
+                .date(transactionEntity.getDate())
                 .category(categoryMapper.mapEntityToResponse(transactionEntity.getCategory()))
                 .account(accountMapper.mapEntityToResponse(transactionEntity.getAccount()))
                 .build();

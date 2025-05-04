@@ -2,8 +2,13 @@ package com.robotbot.finance_tracker_server.services.impls;
 
 import com.robotbot.finance_tracker_server.domain.dto.analytics.AnalyticsDailySummary;
 import com.robotbot.finance_tracker_server.domain.dto.analytics.AnalyticsDailySummaryResponse;
+import com.robotbot.finance_tracker_server.domain.dto.analytics.CategoriesAnalyticsResponse;
+import com.robotbot.finance_tracker_server.domain.dto.analytics.CategoryAnalyticsResponse;
+import com.robotbot.finance_tracker_server.domain.entities.CategoryEntity;
 import com.robotbot.finance_tracker_server.domain.entities.TransactionEntity;
 import com.robotbot.finance_tracker_server.domain.entities.UserEntity;
+import com.robotbot.finance_tracker_server.mappers.impls.AnalyticsMapper;
+import com.robotbot.finance_tracker_server.mappers.impls.CategoryMapper;
 import com.robotbot.finance_tracker_server.repositories.TransactionRepository;
 import com.robotbot.finance_tracker_server.security.UserPrincipal;
 import com.robotbot.finance_tracker_server.services.AnalyticsService;
@@ -24,28 +29,25 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
     private final UserService userService;
     private final TransactionRepository transactionRepository;
+    private final AnalyticsMapper analyticsMapper;
+    private final CategoryMapper categoryMapper;
 
     @Override
     public AnalyticsDailySummaryResponse getDailySummary(
             UserPrincipal userPrincipal,
             LocalDate startDate,
-            LocalDate endDate,
-            ZoneId zoneId
+            LocalDate endDate
     ) {
-        OffsetDateTime startDateTime = startDate.atStartOfDay(zoneId).toOffsetDateTime();
-
-        OffsetDateTime endDateTime = endDate.plusDays(1).atStartOfDay(zoneId).toOffsetDateTime().minusNanos(1);
-
         UserEntity currentUser = userService.getUserByPrincipal(userPrincipal);
 
-        List<TransactionEntity> transactions = transactionRepository.findByAccount_UserAndTimeBetween(
+        List<TransactionEntity> transactions = transactionRepository.findByAccount_UserAndDateBetween(
                 currentUser,
-                startDateTime,
-                endDateTime
+                startDate,
+                endDate
         );
 
         Map<LocalDate, List<TransactionEntity>> groupedTransactions = transactions.stream()
-                .collect(Collectors.groupingBy(transaction -> transaction.getTime().toLocalDate()));
+                .collect(Collectors.groupingBy(TransactionEntity::getDate));
 
         List<AnalyticsDailySummary> dailySummaries = groupedTransactions.entrySet().stream()
                 .map(entry -> {
@@ -77,5 +79,30 @@ public class AnalyticsServiceImpl implements AnalyticsService {
         return AnalyticsDailySummaryResponse.builder()
                 .analytics(dailySummaries)
                 .build();
+    }
+
+    @Override
+    public CategoriesAnalyticsResponse getCategoriesAnalytics(UserPrincipal userPrincipal, Boolean isExpense) {
+        UserEntity currentUser = userService.getUserByPrincipal(userPrincipal);
+
+        List<TransactionEntity> transactions = transactionRepository.findByAccount_UserAndCategory_IsExpense(currentUser, isExpense);
+
+        Map<CategoryEntity, BigDecimal> aggregated = transactions.stream()
+                .collect(Collectors.groupingBy(
+                        TransactionEntity::getCategory,
+                        Collectors.mapping(
+                                TransactionEntity::getAmount,
+                                Collectors.reducing(BigDecimal.ZERO, BigDecimal::add)
+                        )
+                ));
+
+        List<CategoryAnalyticsResponse> analyticsDtos = aggregated.entrySet().stream()
+                .map(entry -> new CategoryAnalyticsResponse(
+                        categoryMapper.mapEntityToResponse(entry.getKey()),
+                        entry.getValue()
+                ))
+                .collect(Collectors.toList());
+
+        return analyticsMapper.mapCategoryAnalyticsListToResponse(analyticsDtos);
     }
 }

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 @Data
@@ -16,7 +17,7 @@ public class TransactionResponse {
 
     private BigDecimal amount;
 
-    private OffsetDateTime time;
+    private LocalDate date;
 
     private CategoryResponse category;
 

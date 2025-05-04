@@ -9,7 +9,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -41,5 +41,5 @@ public class TransferEntity {
     private AccountEntity accountTo;
 
     @Column(nullable = false)
-    private OffsetDateTime time;
+    private LocalDate date;
 }

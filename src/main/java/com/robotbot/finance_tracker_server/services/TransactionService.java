@@ -15,7 +15,7 @@ public interface TransactionService {
 
     TransactionResponse getTransactionById(UserPrincipal userPrincipal, Long transactionId);
 
-    TransactionsResponse getTransactionsByUser(UserPrincipal userPrincipal);
+    TransactionsResponse getTransactionsByUser(UserPrincipal userPrincipal, Boolean isExpense, String sortOrder);
 
     void updateTransaction(
             Long transactionId,

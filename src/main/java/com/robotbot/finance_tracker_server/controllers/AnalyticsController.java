@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
 
 @RestController
 @RequestMapping("/analytics")
@@ -27,11 +25,17 @@ public class AnalyticsController {
     public ResponseEntity<AnalyticsDailySummaryResponse> getDailySummary(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-            @RequestParam("zoneId") String zoneIdString) {
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
-        ZoneId zoneId = ZoneId.of(zoneIdString);
-        AnalyticsDailySummaryResponse response = analyticsService.getDailySummary(userPrincipal, startDate, endDate, zoneId);
+        AnalyticsDailySummaryResponse response = analyticsService.getDailySummary(userPrincipal, startDate, endDate);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity getCategoriesAnalytics(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @RequestParam Boolean isExpense
+    ) {
+        return ResponseEntity.ok(analyticsService.getCategoriesAnalytics(userPrincipal, isExpense));
     }
 }

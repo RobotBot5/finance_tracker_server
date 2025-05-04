@@ -20,10 +20,11 @@ import com.robotbot.finance_tracker_server.services.TransactionService;
 import com.robotbot.finance_tracker_server.services.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -70,9 +71,17 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionsResponse getTransactionsByUser(UserPrincipal userPrincipal) {
+    public TransactionsResponse getTransactionsByUser(UserPrincipal userPrincipal, Boolean isExpense, String sortOrder) {
         UserEntity userEntity = userService.getUserByPrincipal(userPrincipal);
-        List<TransactionEntity> transactions = transactionRepository.findByAccount_User(userEntity);
+        Sort sort = sortOrder.equalsIgnoreCase("desc")
+                ? Sort.by("date").descending()
+                : Sort.by("date").ascending();
+        List<TransactionEntity> transactions;
+        if (isExpense == null) {
+            transactions = transactionRepository.findByAccount_User(userEntity, sort);
+        } else {
+            transactions = transactionRepository.findByAccount_UserAndCategory_IsExpense(userEntity, isExpense, sort);
+        }
         return mapper.mapEntitiesToResponse(transactions);
     }
 
@@ -106,8 +115,8 @@ public class TransactionServiceImpl implements TransactionService {
             accountRepository.save(account);
         }
 
-        if (transactionUpdateRequest.getTime() != null) {
-            transaction.setTime(OffsetDateTime.parse(transactionUpdateRequest.getTime()));
+        if (transactionUpdateRequest.getDate() != null) {
+            transaction.setDate(LocalDate.parse(transactionUpdateRequest.getDate()));
         }
 
         UserEntity currentUser = userService.getUserByPrincipal(userPrincipal);

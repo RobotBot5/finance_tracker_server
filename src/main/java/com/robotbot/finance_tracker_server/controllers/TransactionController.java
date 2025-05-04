@@ -28,9 +28,11 @@ public class TransactionController {
 
     @GetMapping
     public ResponseEntity<Object> getTransactions(
-            @AuthenticationPrincipal UserPrincipal userPrincipal
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @RequestParam(value = "isExpense", required = false) Boolean isExpense,
+            @RequestParam(value = "sortOrder", defaultValue = "asc") String sortOrder
     ) {
-        return ResponseEntity.ok().body(transactionService.getTransactionsByUser(userPrincipal));
+        return ResponseEntity.ok().body(transactionService.getTransactionsByUser(userPrincipal, isExpense, sortOrder));
     }
 
     @GetMapping("/{id}")

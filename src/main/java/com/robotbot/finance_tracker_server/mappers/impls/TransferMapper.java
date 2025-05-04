@@ -5,7 +5,7 @@ import com.robotbot.finance_tracker_server.domain.entities.AccountEntity;
 import com.robotbot.finance_tracker_server.domain.entities.TransferEntity;
 import org.springframework.stereotype.Component;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 @Component
 public class TransferMapper {
@@ -15,18 +15,18 @@ public class TransferMapper {
             AccountEntity accountFrom,
             AccountEntity accountTo
     ) {
-        OffsetDateTime time;
-        if (transferCreateRequest.getTime() == null) {
-            time = OffsetDateTime.now();
+        LocalDate date;
+        if (transferCreateRequest.getDate() == null) {
+            date = LocalDate.now();
         } else {
-            time = OffsetDateTime.parse(transferCreateRequest.getTime());
+            date = LocalDate.parse(transferCreateRequest.getDate());
         }
         return TransferEntity.builder()
                 .amountFrom(transferCreateRequest.getAmountFrom())
                 .amountTo(transferCreateRequest.getAmountTo())
                 .accountFrom(accountFrom)
                 .accountTo(accountTo)
-                .time(time)
+                .date(date)
                 .build();
     }
 }
