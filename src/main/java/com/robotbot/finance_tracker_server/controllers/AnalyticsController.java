@@ -34,8 +34,9 @@ public class AnalyticsController {
     @GetMapping("/categories")
     public ResponseEntity getCategoriesAnalytics(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @RequestParam Boolean isExpense
+            @RequestParam Boolean isExpense,
+            @RequestParam(value = "sortOrder", defaultValue = "asc") String sortOrder
     ) {
-        return ResponseEntity.ok(analyticsService.getCategoriesAnalytics(userPrincipal, isExpense));
+        return ResponseEntity.ok(analyticsService.getCategoriesAnalytics(userPrincipal, isExpense, sortOrder));
     }
 }

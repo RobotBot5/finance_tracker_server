@@ -5,6 +5,7 @@ import com.robotbot.finance_tracker_server.domain.entities.UserEntity;
 import com.robotbot.finance_tracker_server.domain.exceptions.AuthenticationException;
 import com.robotbot.finance_tracker_server.domain.exceptions.EmailAlreadyExistsException;
 import com.robotbot.finance_tracker_server.mappers.Mapper;
+import com.robotbot.finance_tracker_server.repositories.CurrencyRepository;
 import com.robotbot.finance_tracker_server.repositories.UserRepository;
 import com.robotbot.finance_tracker_server.security.UserPrincipal;
 import com.robotbot.finance_tracker_server.services.UserService;
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final CurrencyRepository currencyRepository;
     private final Mapper<UserRegisterRequest, UserEntity> mapper;
 
     @Override
@@ -38,6 +40,7 @@ public class UserServiceImpl implements UserService {
         }
         UserEntity userEntity = mapper.mapDtoToEntity(userRegisterRequest);
         userEntity.setRole("ROLE_USER");
+        userEntity.setTargetCurrency(currencyRepository.findByCode("USD"));
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
         userRepository.save(userEntity);
     }

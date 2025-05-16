@@ -17,7 +17,8 @@ public interface AnalyticsService {
 
     CategoriesAnalyticsResponse getCategoriesAnalytics(
             UserPrincipal userPrincipal,
-            Boolean isExpense
+            Boolean isExpense,
+            String sortOrder
     );
 
 }

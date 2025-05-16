@@ -17,4 +17,6 @@ public class CategoryAnalyticsResponse {
     private CategoryResponse category;
 
     private BigDecimal totalAmount;
+
+    private Integer percentage;
 }
