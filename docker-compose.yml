@@ -1,0 +1,28 @@
+version: '3.1'
+
+services:
+  db:
+    container_name: finance-tracker-db
+    image: postgres
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: changemeinprod!
+      POSTGRES_USER: postgres
+      POSTGRES_DB: finance-tracker
+
+  app:
+    container_name: finance-tracker-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/finance-tracker
+      DB_USERNAME: postgres
+      DB_PASSWORD: changemeinprod!
+      JWT_SECRET: secret
