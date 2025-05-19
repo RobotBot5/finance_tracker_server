@@ -40,7 +40,7 @@ public class CurrencyExchangeServiceImpl implements CurrencyExchangeService {
             ResponseEntity<ExchangeRateResponse> response =
                     restTemplate.getForEntity(uri, ExchangeRateResponse.class);
 
-            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+            if (response.getStatusCode().is2xxSuccessful()) {
                 return response.getBody();
             } else {
                 throw new ExchangeApiException("Error retrieving exchange rates, status: " + response.getStatusCode());
