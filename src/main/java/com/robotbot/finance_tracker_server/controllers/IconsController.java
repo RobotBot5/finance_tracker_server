@@ -21,7 +21,7 @@ public class IconsController {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity getIconById(@PathVariable Long id) {
+    public ResponseEntity getIconById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(iconService.getIconById(id));
     }
 }

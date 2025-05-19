@@ -38,7 +38,7 @@ public class TransactionController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> getTransactionById(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @PathVariable Long id
+            @PathVariable(name = "id") Long id
     ) {
         return ResponseEntity.ok().body(transactionService.getTransactionById(userPrincipal, id));
     }
@@ -46,7 +46,7 @@ public class TransactionController {
     @PatchMapping("/{id}")
     public ResponseEntity<Object> updateTransaction(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @PathVariable Long id,
+            @PathVariable(name = "id") Long id,
             @RequestBody @Validated TransactionUpdateRequest transactionUpdateRequest
     ) {
         transactionService.updateTransaction(id, transactionUpdateRequest, userPrincipal);
@@ -56,7 +56,7 @@ public class TransactionController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteTransaction(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @PathVariable Long id
+            @PathVariable(name = "id") Long id
     ) {
         transactionService.deleteTransaction(id, userPrincipal);
         return ResponseEntity.ok().build();

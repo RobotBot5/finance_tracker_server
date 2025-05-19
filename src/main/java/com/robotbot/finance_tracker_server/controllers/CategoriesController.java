@@ -37,7 +37,7 @@ public class CategoriesController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> getCategoryById(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @PathVariable Long id
+            @PathVariable(name = "id") Long id
     ) {
         return ResponseEntity.ok().body(categoryService.getCategoryById(userPrincipal, id));
     }
@@ -45,7 +45,7 @@ public class CategoriesController {
     @PatchMapping("/{id}")
     public ResponseEntity<Object> updateCategory(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @PathVariable Long id,
+            @PathVariable(name = "id") Long id,
             @RequestBody CategoryUpdateRequest categoryUpdateRequest
     ) {
         categoryService.updateCategory(id, categoryUpdateRequest, userPrincipal);
@@ -55,7 +55,7 @@ public class CategoriesController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteCategory(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @PathVariable Long id
+            @PathVariable(name = "id") Long id
     ) {
         categoryService.deleteCategory(id, userPrincipal);
         return ResponseEntity.ok().build();

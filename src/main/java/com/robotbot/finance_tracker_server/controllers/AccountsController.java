@@ -40,7 +40,7 @@ public class AccountsController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> getAccountById(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @PathVariable Long id
+            @PathVariable(name = "id") Long id
     ) {
         return ResponseEntity.ok().body(accountService.getAccountById(userPrincipal, id));
     }
@@ -48,7 +48,7 @@ public class AccountsController {
     @PatchMapping("/{id}")
     public ResponseEntity<Object> updateAccount(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @PathVariable Long id,
+            @PathVariable(name = "id") Long id,
             @RequestBody AccountUpdateRequest accountUpdateRequest
     ) {
         accountService.updateAccount(id, accountUpdateRequest, userPrincipal);
@@ -58,7 +58,7 @@ public class AccountsController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteAccount(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
-            @PathVariable Long id
+            @PathVariable(name = "id") Long id
     ) {
         accountService.deleteAccount(id, userPrincipal);
         return ResponseEntity.ok().build();
