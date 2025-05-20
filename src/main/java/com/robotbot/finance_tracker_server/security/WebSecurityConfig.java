@@ -36,9 +36,10 @@ public class WebSecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .exceptionHandling(h ->
                         h.authenticationEntryPoint(unauthorizedHandler))
-                .securityMatcher("/**")
+                .securityMatcher("/categories/**")
                 .authorizeHttpRequests(registry -> registry
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/swagger-ui.html").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/icons/**").hasRole("USER")
                         .requestMatchers("/categories/**").hasRole("USER")
